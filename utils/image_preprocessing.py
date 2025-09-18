@@ -12,6 +12,7 @@ def remove_background_from_suit_image(input_path, output_path):
       input_path (str): Path to the original suit image file.
       output_path (str): Path where the background removed image will be saved.
     """
+
     # Ensure output directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
