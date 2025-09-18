@@ -39,7 +39,7 @@ if uploaded_file:
             final_img = merge_head_and_suit_face_behind(
                 st.session_state["bg_removed"],
                 suit_path="assets/suit_overlay.png",
-                overlap_px=60
+                overlap_px=600
             )
             st.image(final_img, caption="Passport Photo Ready!", use_container_width=True)
             st.session_state["final_img"] = final_img

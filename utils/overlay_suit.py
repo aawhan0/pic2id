@@ -54,11 +54,16 @@ def merge_head_and_suit_face_behind(cropped_img, suit_path, overlap_px=40):
     final_height = cropped_img.height + suit_resized.height - overlap_px
     final_img = Image.new("RGBA", (suit_width, final_height), (0, 0, 0, 255))
 
-    # Paste suit first (background)
-    final_img.paste(suit_resized, (0, cropped_img.height - overlap_px), suit_resized)
-    # Paste head+neck on top (foreground)
-    final_img.alpha_composite(cropped_img, (0, 0))
+    # Paste cropped face first (background)
+    final_img.paste(cropped_img, (0, 0), cropped_img)
+    # Paste suit overlay on top (foreground) with overlap position
+    final_img.alpha_composite(suit_resized, (0, cropped_img.height - overlap_px))
     print(f"Using suit_offset: {overlap_px}")
+    print(f"Cropped image size: {cropped_img.size}")
+    print(f"Suit resized size: {suit_resized.size}")
+    print(f"Overlap pixels: {overlap_px}")
+    print(f"Suit paste position: {(0, cropped_img.height - overlap_px)}")
+
 
 
     return final_img
