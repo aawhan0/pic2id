@@ -4,6 +4,8 @@ import io
 from rembg import remove
 from utils.passport_utils import crop_and_resize
 from utils.overlay_suit import add_suit_with_face_align
+from utils.crop_utils import crop_above_neck
+
 
 st.set_page_config(page_title="Pic2ID - Passport Photo Maker", layout="centered")
 st.title("📸 Pic2ID - AI Passport Photo Generator")
@@ -22,10 +24,14 @@ if uploaded_file:
             result = remove(img_bytes.getvalue())
             bg_removed_img = Image.open(io.BytesIO(result)).convert("RGBA")
 
+            # Crop to head and neck
+            cropped_img = crop_above_neck(bg_removed_img)
             st.image(bg_removed_img, caption="🪄 Background Removed", use_container_width=True)
 
+            st.image(cropped_img, caption="🪄 Background Removed & Cropped (Head + Neck)", use_container_width=True)
+
             # Store for further steps (like adding suit)
-            st.session_state['bg_removed'] = bg_removed_img
+            st.session_state['bg_removed'] = cropped_img
 
     if "bg_removed" in st.session_state and st.button("Add Suit & Tie"):
         with st.spinner("Adding Suit..."):
