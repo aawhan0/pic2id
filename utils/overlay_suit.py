@@ -58,5 +58,7 @@ def merge_head_and_suit_face_behind(cropped_img, suit_path, overlap_px=40):
     final_img.paste(suit_resized, (0, cropped_img.height - overlap_px), suit_resized)
     # Paste head+neck on top (foreground)
     final_img.alpha_composite(cropped_img, (0, 0))
+    print(f"Using suit_offset: {overlap_px}")
+
 
     return final_img

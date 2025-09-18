@@ -36,7 +36,11 @@ if uploaded_file:
 
     if "bg_removed" in st.session_state and st.button("Add Suit & Tie"):
         with st.spinner("Adding Suit..."):
-            final_img = merge_head_and_suit_face_behind(st.session_state["bg_removed"], suit_path="assets/suit_overlay.png", overlap_px=-60)
+            final_img = merge_head_and_suit_face_behind(
+                st.session_state["bg_removed"],
+                suit_path="assets/suit_overlay.png",
+                overlap_px=60
+            )
             st.image(final_img, caption="Passport Photo Ready!", use_container_width=True)
             st.session_state["final_img"] = final_img
 
