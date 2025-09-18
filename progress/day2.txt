@@ -1,0 +1,4 @@
+now, i need to properly mask the face area, and remove its surrounding preserving the neck area.
+and below the neck area, i will paste the suit overlay. 
+
+this was not happening yesterday, so lets see what can i do about it..
