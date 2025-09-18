@@ -3,7 +3,7 @@ from PIL import Image
 import io
 from rembg import remove
 from utils.passport_utils import crop_and_resize
-from utils.overlay_suit import add_suit
+from utils.overlay_suit import add_suit_with_face_align
 
 st.set_page_config(page_title="Pic2ID - Passport Photo Maker", layout="centered")
 st.title("📸 Pic2ID - AI Passport Photo Generator")
@@ -29,7 +29,7 @@ if uploaded_file:
 
     if "bg_removed" in st.session_state and st.button("Add Suit & Tie"):
         with st.spinner("Adding Suit..."):
-            final_img = add_suit(st.session_state["bg_removed"], "suit_overlay.png")
+            final_img = add_suit_with_face_align(st.session_state["bg_removed"], "suit_overlay.png")
             st.image(final_img, caption="Passport Photo Ready!", use_container_width=True)
             st.session_state["final_img"] = final_img
 
