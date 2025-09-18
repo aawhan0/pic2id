@@ -4,6 +4,9 @@ from PIL import Image
 import numpy as np
 import cv2
 import io
+from utils.image_preprocessing import remove_background_from_suit_image
+remove_background_from_suit_image("suit_overlay.png", "output_img/suit_no_bg.png")
+
 
 def detect_face_bbox(pil_img):
     cv_img = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
@@ -22,28 +25,24 @@ def remove_suit_background_and_save(suit_path="suit_overlay.png", output_folder=
     suit_no_bg_img.save(suit_no_bg_output_path)
     return suit_no_bg_img
 
-def add_suit_with_face_align(bg_removed_img, suit_path="suit_overlay.png"):
+def add_suit_with_face_align(bg_removed_img, suit_path="output_img/suit_no_bg.png"):
     bbox = detect_face_bbox(bg_removed_img)
     if bbox is None:
-        # fallback to basic overlay if no face detected
         return add_suit(bg_removed_img, suit_path)
 
-    # Remove suit background and save processed suit PNG
-    suit_no_bg = remove_suit_background_and_save(suit_path)
+    suit_no_bg = Image.open(suit_path).convert("RGBA")
 
     x, y, w, h = bbox
     suit_width = bg_removed_img.width
-    # Resize height to 1.5 times face height for realistic coverage
     suit_height = int(1.5 * h)
     suit_resized = suit_no_bg.resize((suit_width, suit_height), Image.Resampling.LANCZOS)
 
-    # Position: suit collar starts just below bottom of face bbox (chin)
     position = (0, y + h)
-
     combined = bg_removed_img.copy()
     combined.alpha_composite(suit_resized, position)
 
     return combined
+
 
 
 # Basic add_suit function fallback (you must have it defined)
