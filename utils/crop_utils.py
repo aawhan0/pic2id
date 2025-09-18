@@ -12,7 +12,7 @@ def crop_above_neck(pil_img):
         return pil_img
 
     x, y, w, h = max(faces, key=lambda rect: rect[2] * rect[3])
-    neck_bottom = y + int(1.1 * h)      # 10% below chin, tweak as needed
+    neck_bottom = y + int(1.4 * h)      # 10% below chin, tweak as needed
     neck_bottom = min(neck_bottom, cv_img.shape[0])
 
     # Crop from top to just below neck, keeping full width
